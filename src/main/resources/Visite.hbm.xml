@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="org.hib.med.entity.Visite" table="visite">
+        <meta attribute="class-description">
+            This class contains the visit's details.
+        </meta>
+
+        <id name="codeVisite" type="int" column="code_visite">
+            <generator class="native"/>
+        </id>
+
+        <property name="dateVisite" column="date_visite" type="date"/>
+
+        <many-to-one name="medecin" class="org.hib.med.entity.Medecin" column="code_doc" not-null="true"/>
+
+        <many-to-one name="patient" class="org.hib.med.entity.Patient" column="code_pat" not-null="true"/>
+
+    </class>
+</hibernate-mapping>

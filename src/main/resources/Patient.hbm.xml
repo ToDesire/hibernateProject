@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="org.hib.med.entity.Patient" table="patient">
+        <meta attribute="class-description">
+            This class contains the patient's details.
+        </meta>
+
+        <id name="codePat" type="string" column="code_pat">
+            <generator class="assigned"/>
+        </id>
+
+        <property name="patientFirstName" column="patient_first_name" type="string"/>
+        <property name="patientLastName" column="patient_last_name" type="string"/>
+        <property name="sex" column="sex" type="string"/>
+        <property name="address" column="address" type="string"/>
+
+        <set name="visites" inverse="true" cascade="all">
+            <key column="code_pat"/>
+            <one-to-many class="org.hib.med.entity.Visite"/>
+        </set>
+
+    </class>
+</hibernate-mapping>
