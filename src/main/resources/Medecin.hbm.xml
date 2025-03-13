@@ -15,7 +15,7 @@
 
         <property name="doctorFirstName" column="doctor_first_name" type="string"/>
         <property name="doctorLastName" column="doctor_last_name" type="string"/>
-        <property name="doctorGrade" column="doctor_grade" type="string"/>
+        <property name="doctorGrade" column="doctor_grade" type="string" not-null="true"/>
 
         <set name="visites" inverse="true" cascade="all">
             <key column="code_doc"/>
