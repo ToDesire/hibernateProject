@@ -15,7 +15,12 @@
 
         <property name="patientFirstName" column="patient_first_name" type="string"/>
         <property name="patientLastName" column="patient_last_name" type="string"/>
-        <property name="sex" column="sex" type="string"/>
+        <property name="gender" column="gender" not-null="true">
+            <type name="org.hibernate.type.EnumType">
+                <param name="enumClass">org.hib.med.enums.PatientGender</param>
+                <param name="useNamed">true</param>
+            </type>
+        </property>
         <property name="address" column="address" type="string"/>
 
         <set name="visites" inverse="true" cascade="all">
