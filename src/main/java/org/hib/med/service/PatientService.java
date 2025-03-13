@@ -2,6 +2,7 @@ package org.hib.med.service;
 
 import org.hib.med.dto.PatientDto;
 import org.hib.med.entity.Patient;
+import org.hib.med.enums.PatientGender;
 import org.hib.med.util.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -24,6 +25,11 @@ public class PatientService {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Transaction transaction;
             Patient patient = modelMapper.map(patientDto, Patient.class);
+            if (PatientGender.HOMME.toString().equalsIgnoreCase(patientDto.getGender()))
+                patient.setGender(PatientGender.HOMME);
+            else if (PatientGender.FEMME.toString().equalsIgnoreCase(patientDto.getGender()))
+                patient.setGender(PatientGender.FEMME);
+            else throw new IllegalArgumentException("Invalid gender");
             transaction = session.beginTransaction();
             session.save(patient);
             transaction.commit();
@@ -58,11 +64,15 @@ public class PatientService {
                 patient.setPatientFirstName(patientDto.getPatientFirstName());
                 patient.setPatientLastName(patientDto.getPatientLastName());
                 patient.setAddress(patientDto.getAddress());
-                patient.setSex(patientDto.getSex());
+                if (PatientGender.HOMME.toString().equalsIgnoreCase(patientDto.getGender()))
+                    patient.setGender(PatientGender.HOMME);
+                else if (PatientGender.FEMME.toString().equalsIgnoreCase(patientDto.getGender()))
+                    patient.setGender(PatientGender.FEMME);
+                else throw new IllegalArgumentException("Invalid gender");
                 transaction = session.beginTransaction();
                 session.update(patient);
                 transaction.commit();
-            } else throw new RuntimeException("Doctor not found");
+            } else throw new RuntimeException("Patient not found or invalid gender");
         }
     }
 
