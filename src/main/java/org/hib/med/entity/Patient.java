@@ -1,7 +1,11 @@
 package org.hib.med.entity;
 
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import org.hib.med.enums.PatientGender;
+
 
 import java.util.Set;
 
@@ -12,7 +16,10 @@ public class Patient {
     private String codePat;
     private String patientLastName;
     private String patientFirstName;
-    private String sex;
+
+    @Enumerated(EnumType.STRING)
+    private PatientGender gender;
+
     private String address;
     private Set<Visite> visites;
 
@@ -28,8 +35,8 @@ public class Patient {
         this.patientFirstName = patientFirstName;
     }
 
-    public void setSex(String sex) {
-        this.sex = sex;
+    public void setGender(PatientGender gender) {
+        this.gender = gender;
     }
 
     public void setAddress(String address) {
@@ -52,8 +59,8 @@ public class Patient {
         return patientFirstName;
     }
 
-    public String getSex() {
-        return sex;
+    public PatientGender getGender() {
+        return gender;
     }
 
     public String getAddress() {
