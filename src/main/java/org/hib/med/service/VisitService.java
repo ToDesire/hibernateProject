@@ -3,7 +3,7 @@ package org.hib.med.service;
 
 import org.hib.med.dto.MedecinDto;
 import org.hib.med.dto.PatientDto;
-import org.hib.med.dto.VisitMoraVakianaDto;
+import org.hib.med.dto.VisitDetailsDto;
 import org.hib.med.dto.VisiteDto;
 import org.hib.med.entity.Medecin;
 import org.hib.med.entity.Patient;
@@ -45,11 +45,11 @@ public class VisitService {
         }
     }
 
-    public VisitMoraVakianaDto getOne(int codeVisite) {
+    public VisitDetailsDto getOne(int codeVisite) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Visite visite = session.get(Visite.class, codeVisite);
             if (visite != null) {
-                VisitMoraVakianaDto v = new VisitMoraVakianaDto();
+                VisitDetailsDto v = new VisitDetailsDto();
                 v.setDateVisite(visite.getDateVisite());
                 v.setMedecin(modelMapper.map(visite.getMedecin(), MedecinDto.class));
                 v.setPatient(modelMapper.map(visite.getPatient(), PatientDto.class));
@@ -59,13 +59,13 @@ public class VisitService {
         return null;
     }
 
-    public Set<VisitMoraVakianaDto> getAll() {
+    public Set<VisitDetailsDto> getAll() {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             List<Visite> visites = session.createQuery("from Visite").list();
 
             return visites.stream().map(
                     visite -> {
-                        VisitMoraVakianaDto v = new VisitMoraVakianaDto();
+                        VisitDetailsDto v = new VisitDetailsDto();
                         v.setDateVisite(visite.getDateVisite());
                         v.setMedecin(modelMapper.map(visite.getMedecin(), MedecinDto.class));
                         v.setPatient(modelMapper.map(visite.getPatient(), PatientDto.class));
