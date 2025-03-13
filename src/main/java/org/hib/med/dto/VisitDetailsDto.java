@@ -7,7 +7,7 @@ import java.util.Date;
 
 @NoArgsConstructor
 @AllArgsConstructor
-public class VisitMoraVakianaDto {
+public class VisitDetailsDto {
     private Date dateVisite;
     private MedecinDto medecin;
     private PatientDto patient;
