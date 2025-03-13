@@ -9,7 +9,7 @@ public class PatientDto {
     private String codePat;
     private String patientLastName;
     private String patientFirstName;
-    private String sex;
+    private String gender;
     private String address;
 
     public void setCodePat(String codePat) {
@@ -24,8 +24,8 @@ public class PatientDto {
         this.patientFirstName = patientFirstName;
     }
 
-    public void setSex(String sex) {
-        this.sex = sex;
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 
     public void setAddress(String address) {
@@ -44,8 +44,8 @@ public class PatientDto {
         return patientFirstName;
     }
 
-    public String getSex() {
-        return sex;
+    public String getGender() {
+        return gender;
     }
 
     public String getAddress() {
