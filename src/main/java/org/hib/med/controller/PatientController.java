@@ -40,9 +40,10 @@ public class PatientController {
         content = @Content( array = @ArraySchema(schema = @Schema(implementation = PatientDto.class)))
     )
     @ApiResponse(responseCode = "403", description = "Forbidden")
+    @ApiResponse(responseCode = "404", description = "Patient not found")
     @ApiResponse(responseCode = "500", description = "Internal server error")
-    public Set<PatientDto> getAllMedecin() {
-        return patientService.getAll();
+    public Set<PatientDto> getAllMedecin(@RequestParam String keyword) {
+        return patientService.getAll(keyword);
     }
 
     @GetMapping("/{codePat}")
@@ -84,19 +85,4 @@ public class PatientController {
         patientService.delete(codePat);
     }
 
-
-    @GetMapping("/search")
-    @Operation(
-        summary = "Search patient",
-        description = "Search patient by code or first name or last name")
-    @ApiResponse(
-        responseCode = "200",
-        description = "Patient retrieved successfully",
-        content = @Content(array = @ArraySchema(schema = @Schema(implementation = PatientDto.class)))
-    )
-    @ApiResponse(responseCode = "404", description = "Patient not found")
-    @ApiResponse(responseCode = "500", description = "Internal server error")
-    public Set<PatientDto> searchPatient(@RequestParam String keyword) {
-        return patientService.findByCodePatOrPatientLastNameOrPatientFirstName(keyword);
-    }
 }
