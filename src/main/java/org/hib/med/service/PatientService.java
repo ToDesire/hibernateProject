@@ -46,12 +46,28 @@ public class PatientService {
         return null;
     }
 
-    public Set<PatientDto> getAll() {
+    public Set<PatientDto> getAll(String term) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            List<Patient> patients = session.createQuery("from Patient").list();
-            return patients.stream().map(
-                    patient -> modelMapper.map(patient, PatientDto.class)
-            ).collect(Collectors.toSet());
+            if(term == null || term.isEmpty()){
+                List<Patient> patients = session.createQuery("from Patient").list();
+                return patients.stream().map(
+                        patient -> modelMapper.map(patient, PatientDto.class)
+                ).collect(Collectors.toSet());
+
+            }else {
+                String searchTerm = "%" + term.toLowerCase() + "%";
+                Query<Patient> query = session.createQuery(
+                        "from Patient p where lower(p.codePat) like :searchTerm" +
+                                " or lower(p.patientLastName) like :searchTerm" +
+                                " or lower(p.patientFirstName) like :searchTerm",
+                        Patient.class
+                );
+                query.setParameter("searchTerm", searchTerm);
+                List<Patient> patients = query.list();
+                return patients.stream().map(
+                        patient -> modelMapper.map(patient, PatientDto.class)
+                ).collect(Collectors.toSet());
+            }
         }
     }
 
@@ -86,23 +102,6 @@ public class PatientService {
                 session.delete(patient);
                 transaction.commit();
             }
-        }
-    }
-
-    public Set<PatientDto> findByCodePatOrPatientLastNameOrPatientFirstName(String term) {
-        try(Session session = HibernateUtil.getSessionFactory().openSession()){
-            String searchTerm = "%" + term.toLowerCase() + "%";
-            Query<Patient> query = session.createQuery(
-                    "from Patient p where lower(p.codePat) like :searchTerm" +
-                    " or lower(p.patientLastName) like :searchTerm" +
-                    " or lower(p.patientFirstName) like :searchTerm",
-                    Patient.class
-            );
-            query.setParameter("searchTerm", searchTerm);
-            List<Patient> patients = query.list();
-            return patients.stream().map(
-                    patient -> modelMapper.map(patient, PatientDto.class)
-            ).collect(Collectors.toSet());
         }
     }
 
