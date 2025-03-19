@@ -8,9 +8,12 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class VisitDetailsDto {
+    private int codeVisite;
     private Date dateVisite;
     private MedecinDto medecin;
     private PatientDto patient;
+
+    public void setCodeVisite(int codeVisite) { this.codeVisite = codeVisite; }
 
     public void setDateVisite(Date dateVisite) {
         this.dateVisite = dateVisite;
@@ -23,6 +26,8 @@ public class VisitDetailsDto {
     public void setPatient(PatientDto patient) {
         this.patient = patient;
     }
+
+    public int getCodeVisite() { return codeVisite; }
 
     public Date getDateVisite() {
         return dateVisite;
