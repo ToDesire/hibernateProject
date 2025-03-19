@@ -49,11 +49,7 @@ public class VisitService {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Visite visite = session.get(Visite.class, codeVisite);
             if (visite != null) {
-                VisitDetailsDto v = new VisitDetailsDto();
-                v.setDateVisite(visite.getDateVisite());
-                v.setMedecin(modelMapper.map(visite.getMedecin(), MedecinDto.class));
-                v.setPatient(modelMapper.map(visite.getPatient(), PatientDto.class));
-                return v;
+                return getVisitDetailsDto(visite);
             }
         }
         return null;
@@ -64,13 +60,7 @@ public class VisitService {
             List<Visite> visites = session.createQuery("from Visite").list();
 
             return visites.stream().map(
-                    visite -> {
-                        VisitDetailsDto v = new VisitDetailsDto();
-                        v.setDateVisite(visite.getDateVisite());
-                        v.setMedecin(modelMapper.map(visite.getMedecin(), MedecinDto.class));
-                        v.setPatient(modelMapper.map(visite.getPatient(), PatientDto.class));
-                        return v;
-                    }
+                    this::getVisitDetailsDto
             ).collect(Collectors.toSet());
         }
     }
@@ -107,6 +97,16 @@ public class VisitService {
                 transaction.commit();
             }
         }
+    }
+
+
+    private VisitDetailsDto getVisitDetailsDto(Visite visite) {
+        VisitDetailsDto v = new VisitDetailsDto();
+        v.setCodeVisite(visite.getCodeVisite());
+        v.setDateVisite(visite.getDateVisite());
+        v.setMedecin(modelMapper.map(visite.getMedecin(), MedecinDto.class));
+        v.setPatient(modelMapper.map(visite.getPatient(), PatientDto.class));
+        return v;
     }
 
 }
